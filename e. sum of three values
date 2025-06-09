@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+  long long n, x;
+  cin >> n >> x;
+  vector<vector<long long>> a (n, vector<long long>(2));
+  for (int i = 0; i < n; i++){
+      cin >> a[i][0];
+      a[i][1] = i;
+  }
+  sort(a.begin(), a.end());
+  //for (int i = 0; i < n; i++) cout << a[i][0] << " " << a[i][1] << '\n';
+  bool flag = false;
+  for (int i = 0; i < n - 2; i++){
+    int j = i + 1;
+    int k = n - 1;
+    while (j < k){
+      long long sum = a[i][0] + a[j][0] + a[k][0];
+      if (sum == x){
+        cout << a[i][1] + 1 << " " << a[j][1] + 1 << " " << a[k][1] + 1;
+        flag = true;
+        break;
+      }
+      else if (sum < x) j++;
+      else k--;
+    }
+    if (flag) break;
+  }
+  if (!flag) cout << "IMPOSSIBLE";
+}
