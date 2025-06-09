@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int v, n, t;
+  cin >> v >> n >> t;
+  vector<vector<vector<int>>> gr (t+1);
+  for (int i = 0; i < n; i++){
+    int w, c, p;
+    cin >> w >> c >> p;
+    vector<int> temp;
+    temp.push_back(w);
+    temp.push_back(c);
+    gr[p].push_back(temp);
+  }
+  vector<vector<int>> dp (t+1, vector<int>(v+1, 0));
+  for (int g = 1; g <= t; g++){
+    for (int w = 0; w <= v; w++){
+      dp[g][w] = dp[g-1][w];
+      for (int i = 0; i < gr[g].size(); i++){
+        if (w >= gr[g][i][0]){
+          dp[g][w] = max(dp[g][w], dp[g-1][w-gr[g][i][0]] + gr[g][i][1]);
+        }
+      }
+    }
+  }
+  cout << dp[t][v];
+}
