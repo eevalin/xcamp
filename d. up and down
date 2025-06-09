@@ -1,0 +1,23 @@
+from collections import deque
+f = [int(x) for x in input().split()]
+while f[0] != 0:
+  n, a, b = f[0], f[1], f[2]
+  k = [int(x) for x in input().split()]
+  y = -1
+  seen = set()
+  dq = deque()
+  dq.append((a, 0))
+  seen.add(a)
+  while dq:
+    cur, step = dq.popleft()
+    #print(cur)
+    seen.add(cur)
+    if cur == b:
+      y = step
+      break
+    if cur + k[cur - 1] > 0 and cur + k[cur - 1] <= n and cur + k[cur - 1] not in seen:
+      dq.append((cur + k[cur - 1], step + 1))
+    if cur - k[cur - 1] > 0 and cur - k[cur - 1] <= n and cur - k[cur - 1] not in seen:
+      dq.append((cur - k[cur - 1], step + 1))
+  print(y)
+  f = [int(x) for x in input().split()]
