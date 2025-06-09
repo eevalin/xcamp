@@ -1,0 +1,26 @@
+from collections import deque
+n = int(input())
+startx, starty = [int(x) for x in input().split()]
+endx, endy = [int(x) for x in input().split()]
+dq = deque()
+dq.append((startx, starty, 0))
+flag = True
+seen = set()
+seen.add((startx, starty))
+while dq:
+  #print(8)
+  #print(dq)
+  curx, cury, count = dq.popleft()
+  seen.add((curx, cury))
+  if curx == endx and cury == endy:
+    print(count)
+    flag = False
+    break
+  for dx, dy in [[-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1]]:
+    newx = curx + dx
+    newy = cury + dy
+    if newx >= 0 and newx < n and newy >= 0 and newy < n and (newx, newy) not in seen:
+      dq.append((newx, newy, count + 1))
+      seen.add((newx, newy))
+if flag:
+      print(-1)
