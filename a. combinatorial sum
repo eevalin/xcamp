@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n, k;
+  cin >> n >> k;
+  vector<int> a;
+  for (int i = 0; i < n; i++){
+    int b;
+    cin >> b;
+    a.push_back(b);
+  }
+  bool flag = true;
+  for (int i = 0; i < 1<<n; i++){
+    long long x = 0;
+    for (int j = 0; j < n; j++){
+      if ((i>>j) & 1) x += a[j];
+    }
+    if (x == k){
+      cout << "Yes";
+      flag = false;
+      break;
+    }
+  }
+  if (flag) cout << "No";
+}
