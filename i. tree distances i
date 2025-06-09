@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<vector<int>> tree;
+vector<int> x;
+vector<int> y;
+vector<int> z;
+
+void dfs(int node, int parent){
+  y[node] = 0;
+  z[node] = 0;
+  for (int c : tree[node]){
+    if (c != parent){
+      dfs(c, node);
+      if (y[c] + 1 > y[node]){
+        z[node] = y[node];
+        y[node] = y[c] + 1;
+        x[node] = c;
+      }
+      else if (y[c] + 1 > z[node]){
+        z[node] = y[c] + 1;
+      }
+    }
+  }
+}
+
+void ddfs(int node, int parent){
+  for (int c : tree[node]){
+    if (c != parent){
+      if (x[node] == c){
+        if (y[c] < z[node] + 1){
+          z[c] = y[c];
+          y[c] = z[node] + 1;
+          x[c] = node;
+        }
+        else{
+          z[c] = max(z[c], z[node] + 1);
+        }
+      }
+      else{
+        z[c] = y[c];
+        y[c] = y[node] + 1;
+        x[c] = node;
+      }
+    ddfs(c, node);
+    }
+  }
+}
+
+int main(){
+  int n;
+  cin >> n;
+  tree.resize(n + 5);
+  for (int i = 0; i < n - 1; i++){
+    int a, b;
+    cin >> a >> b;
+    a--;
+    b--;
+    tree[a].push_back(b);
+    tree[b].push_back(a);
+  }
+  x.resize(n + 5);
+  y.resize(n + 5);
+  z.resize(n + 5);
+  dfs(0, -1);
+  ddfs(0, -1);
+  for (int i = 0; i < n; i++) cout << y[i] << " ";
+}
