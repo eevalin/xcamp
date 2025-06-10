@@ -1,0 +1,9 @@
+import java.util.*;
+public class Main{
+  public static void main(String [] args){
+    Scanner scan = new Scanner(System.in);
+    System.out.print("How many pizzas do you want?");
+    int n = scan.nextInt();
+    System.out.println("You need to pay " + (n * 50) + " yuan, thank you.");
+  }
+}
