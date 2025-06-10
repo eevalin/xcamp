@@ -1,0 +1,22 @@
+from collections import deque
+n, m, startx, starty = [int(x) for x in input().split()]
+ans = [[-1] * m for i in range(n)]
+dq = deque()
+dq.append((startx - 1, starty - 1, 0))
+seen = set()
+seen.add((startx - 1, starty  - 1))
+while dq:
+  curx, cury, count = dq.popleft()
+  seen.add((curx, cury))
+  ans[curx][cury] = count
+  for dx, dy in [[-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1]]:
+    newx = curx + dx
+    newy = cury + dy
+    if newx >= 0 and newx < n and newy >= 0 and newy < m and (newx, newy) not in seen:
+      dq.append((newx, newy, count + 1))
+      seen.add((newx, newy))
+for i in range(n):
+  for j in range(m):
+    print(ans[i][j], end = "")
+    print((5 - len(str(ans[i][j]))) * " ", end = "")
+  print()
