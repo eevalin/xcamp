@@ -1,0 +1,10 @@
+n = int(input())
+a = 1
+b = 2
+c = 4
+for i in range(4, n+1):
+  temp = c
+  c += a + b
+  a = b
+  b = temp
+print(c%998244353)
