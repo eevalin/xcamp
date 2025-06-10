@@ -1,0 +1,15 @@
+count = [0]
+
+def rec(n, a, b, c):
+  if n == 1:
+    print(str(a) + "->" + str(c))
+    count[0] += 1
+  else:
+    rec(n-1, a, c, b)
+    count[0] += 1
+    print(str(a) + "->" + str(c))
+    rec(n-1, b, a, c)
+
+n = int(input())
+rec(n, 1, 2, 3)
+print("tot=" + str(count[0]))
