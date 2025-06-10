@@ -1,0 +1,20 @@
+def dfs(x, y):
+  dp[x][y] = 1
+  for dx, dy in [[0, 1], [0, -1], [-1, 0], [1, 0]]:
+    nx = x + dx
+    ny = y + dy
+    if (nx < r and nx >= 0 and ny < c and ny >= 0) and a[nx][ny] < a[x][y]:
+      dp[x][y] = max(dp[x][y], dfs(nx, ny) + 1)
+  return dp[x][y]
+
+r, c = [int(x) for x in input().split()]
+a = []
+dp = [[0] * c for i in range(r)]
+for i in range(r):
+  ar = [int(x) for x in input().split()]
+  a.append(ar)
+best = 0
+for i in range(r):
+  for j in range(c):
+    best = max(best, dfs(i, j))
+print(best)
