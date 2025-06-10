@@ -1,0 +1,13 @@
+count = [0]
+
+def rec(n):
+  if n == 1:
+    count[0] += 1
+  else:
+    rec(n-1)
+    count[0] += 1
+    rec(n-1)
+
+n = int(input())
+rec(n)
+print(count[0])
