@@ -1,0 +1,48 @@
+from collections import deque
+def pour (x, y, limx, limy):
+  if x > 0:
+    if y < limy:
+      if limy - y > x:
+        y += x
+        x = 0
+      else:
+        x -= limy - y
+        y = limy
+  return [x, y]
+
+a, b, c = [int(x) for x in input().split()]
+dq = deque()
+dq.append((a, 0, 0, 0))
+seen = set()
+seen.add((a, 0, 0))
+ans = -1
+while dq:
+  x, y, z, step = dq.popleft()
+  if x == y and z == 0 or y == z and x == 0 or x == z and y == 0:
+    ans = step
+    break
+  d, e = pour(x, y, a, b)
+  if (d, e, z) not in seen:
+    dq.append((d, e, z, step + 1))
+    seen.add((d, e, z))
+  d, e = pour(x, z, a, c)
+  if (d, y, e) not in seen:
+    dq.append((d, y, e, step + 1))
+    seen.add((d, y, e))
+  d, e = pour(y, x, b, a)
+  if (e, d, z) not in seen:
+    dq.append((e, d, z, step + 1))
+    seen.add((e, d, z))
+  d, e = pour(y, z, b, c)
+  if (x, d, e) not in seen:
+    dq.append((x, d, e, step + 1))
+    seen.add((x, d, e))
+  d, e = pour(z, x, c, a)
+  if (e, y, d) not in seen:
+    dq.append((e, y, d, step + 1))
+    seen.add((e, y, d))
+  d, e = pour(z, y, c, b)
+  if (x, e, d) not in seen:
+    dq.append((x, e, d, step + 1))
+    seen.add((x, e, d))
+print("NO" if ans == -1 else ans)
