@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n, m;
+    cin >> n >> m;
+    vector<vector<pair<long long, long long>>> tree (n);
+    for (int i = 0; i < m; i++){
+        long long a, b, c;
+        cin >> a >> b >> c;
+        tree[a-1].push_back(make_pair(b-1, c));
+    }
+    vector<long long> dist (n, LLONG_MAX);
+    dist[0] = 0;
+    priority_queue<vector<long long>> pq;
+    pq.push({0, 0});
+    while (pq.size() > 0){
+        long long cur = -pq.top()[0];
+        long long u = pq.top()[1];
+        pq.pop();
+        if (cur > dist[u]) continue;
+        for (int i = 0; i < tree[u].size(); i++){
+            long long key = tree[u][i].first;
+            if (dist[key] > dist[u] + tree[u][i].second){
+                dist[key] = dist[u] + tree[u][i].second;
+                pq.push({-dist[key], key});
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) cout << dist[i] << " ";
+}
