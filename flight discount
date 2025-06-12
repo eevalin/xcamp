@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n, m;
+  cin >> n >> m;
+  vector<vector<pair<int, int>>> tree (n);
+  for (int i = 0; i < m; i++){
+    long long a, b, c;
+    cin >> a >> b >> c;
+    a--;
+    b--;
+    tree[a].push_back(make_pair(b, c));
+  }
+  vector<long long> disc (n, LLONG_MAX);
+  vector<long long> full (n, LLONG_MAX);
+  disc[0] = 0LL;
+  full[0] = 0LL;
+  priority_queue<vector<long long>> pq;
+  pq.push({0LL, 0LL, 1LL});
+  
+  while (pq.size() > 0){
+    vector<long long> temp = pq.top();
+    long long c = -temp[0];
+    long long d = temp[1];
+    long long f = temp[2];
+    pq.pop();
+    if (f == 0 && disc[d] < c || f == 1 && full[d] < c) continue;
+    for (int i = 0; i < tree[d].size(); i++){
+      if (f == 0){
+        if (c + tree[d][i].second < disc[tree[d][i].first]){
+          disc[tree[d][i].first] = c + tree[d][i].second;
+          pq.push({-(c + tree[d][i].second), tree[d][i].first, f});
+        }
+      }
+      else{
+        if (c + tree[d][i].second < full[tree[d][i].first]){
+          full[tree[d][i].first] = c + tree[d][i].second;
+          pq.push({-(c + tree[d][i].second), tree[d][i].first, f});
+        }
+        if (c + tree[d][i].second/2 < disc[tree[d][i].first]){
+          disc[tree[d][i].first] = c + tree[d][i].second/2;
+          pq.push({-(c + tree[d][i].second/2), tree[d][i].first, 0});
+        }
+      }
+    }
+  }
+  cout << min(disc[n - 1], full[n - 1]);
+}
