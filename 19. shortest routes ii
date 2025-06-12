@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+  int n, m, q;
+  cin >> n >> m >> q;
+  vector<vector<long long>> tree (n, vector<long long>(n, LLONG_MAX));
+  for (int i = 0; i < n; i++) tree[i][i] = 0;
+  for (int i = 0; i < m; i++){
+    long long a, b, c;
+    cin >> a >> b >> c;
+    a--;
+    b--;
+    tree[a][b] = min(tree[a][b], c);
+    tree[b][a] = min(tree[b][a], c);
+  }
+  for (int k = 0; k < n; k++){
+    for (int i = 0; i < n; i++){
+      for (int j = 0; j < n; j++){
+        if (tree[i][k] <= LLONG_MAX - tree[k][j]){
+          tree[i][j] = min(tree[i][j], tree[i][k] + tree[k][j]);
+        }
+      }
+    }
+  }
+  for (int i = 0; i < q; i++){
+    long long a, b;
+    cin >> a >> b;
+    if (tree[a-1][b-1] == LLONG_MAX) cout << -1 << '\n';
+    else cout << tree[a-1][b-1] << '\n';
+  }
+}
