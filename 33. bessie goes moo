@@ -1,0 +1,19 @@
+from collections import defaultdict
+n = int(input())
+val = defaultdict(list)
+for key in "BESIGOM":
+  val[key] = [0] * 7
+for i in range(n):
+  key, v = input().split()
+  val[key][(int(v))%7] += 1
+ans = 0
+for b in range(7):
+  for e in range(7):
+    for s in range(7):
+      for i in range(7):
+        for g in range(7):
+          for o in range(7):
+            for m in range(7):
+              if ((b+e+s+s+i+e) * (g+o+e+s) * (m+o+o)) % 7 == 0:
+                ans += val["B"][b]*val["E"][e]*val["S"][s]*val["I"][i]*val["G"][g]*val["O"][o]*val["M"][m]
+print(ans)
