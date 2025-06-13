@@ -1,0 +1,28 @@
+s = input()
+count = 0
+open = 0
+close = 0
+for i in range(len(s)):
+  if s[i] == "(":
+    open += 1
+  else:
+    close += 1
+    if close > open:
+      s = s[:i] + "(" + s[i+1:]
+      close -= 1
+      open += 1
+      count += 1
+open = 0
+close = 0
+for i in range(len(s) - 1, -1, -1):
+  if s[i] == ")":
+    close += 1
+  else:
+    open += 1
+    if open > close:
+      s = s[:i] + ")" + s[i+1:]
+      close += 1
+      open -= 1
+      count += 1
+#print(s)
+print(count)
