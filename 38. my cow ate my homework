@@ -1,0 +1,23 @@
+n = int(input())
+a = [int(x) for x in input().split()]
+prefixmin = [0] * n
+prefixmin[-1] = a[-1]
+for i in range(n - 2, -1, -1):
+  prefixmin[i] = min(prefixmin[i+1], a[i])
+prefixsum = [0] * n
+prefixsum[0] = a[0]
+for i in range(1, n):
+  prefixsum[i] = prefixsum[i - 1] + a[i]
+ans = []
+best = 0
+for k in range(1, n-1):
+  cur = prefixsum[n - 1] - prefixsum[k-1] - prefixmin[k]
+  cur /= (n - k - 1)
+  if cur > best:
+    ans = []
+    ans.append(k)
+    best = cur
+  elif cur == best:
+    ans.append(k)
+for i in ans:
+  print(i)
