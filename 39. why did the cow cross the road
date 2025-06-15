@@ -1,0 +1,23 @@
+from heapq import heappush, heappop
+c, n = [int(x) for x in input().split()]
+pqc = []
+for i in range(c):
+  t = int(input())
+  heappush(pqc, [t, 1, t])
+pqcow = []
+for i in range(n):
+  a = [int(x) for x in input().split()]
+  heappush(pqc, [a[0], 0, a[1]])
+count = 0
+while pqc:
+  #print(pqc)
+  #print(pqcow)
+  curc = heappop(pqc)
+  if curc[1] == 0:
+    heappush(pqcow, curc[2])
+  else:
+    while pqcow:
+      if curc[0] <= heappop(pqcow):
+        count += 1
+        break
+print(count)
