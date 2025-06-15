@@ -1,0 +1,24 @@
+from heapq import heappush, heappop
+n, k = [int(x) for x in input().split()]
+b = [int(x) for x in input().split()]
+bmax = max(b)
+best = 0
+for i in range(1, bmax+1):
+  cur = []
+  for tree in b:
+    temp = tree
+    while temp >= i:
+      heappush(cur, -i)
+      temp -= i
+    heappush(cur, -temp)
+  eb = [0] * (k//2)
+  bb = [0] * (k//2)
+  curi = 0
+  while cur and curi < k:
+    if curi < k//2:
+      eb[curi] = -heappop(cur)
+    else:
+      bb[curi - k//2] = -heappop(cur)
+    curi += 1
+  best = max(best, sum(bb))
+print(best)
