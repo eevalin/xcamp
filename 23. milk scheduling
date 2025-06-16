@@ -1,0 +1,17 @@
+from heapq import heappush, heappop
+n = int(input())
+cows = []
+for i in range(n):
+  g, d = [int(x) for x in input().split()]
+  cows.append([g, d])
+cows.sort(key = lambda x:x[1], reverse = True)
+cur = 0
+pq = []
+ans = 0
+for t in range(10000, 0, -1):
+  while cur < n and cows[cur][1] >= t:
+    heappush(pq, -cows[cur][0])
+    cur += 1
+  if pq:
+    ans -= heappop(pq)
+print(ans)
