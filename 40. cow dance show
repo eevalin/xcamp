@@ -1,0 +1,25 @@
+from heapq import heappush, heappop
+def works(mid):
+  last = 0
+  pq = []
+  for i in range(n):
+    if len(pq) == mid:
+      last = heappop(pq)
+    if last + d[i] > tmax:
+      return False
+    pq.append(last + d[i])
+  return True
+
+n, tmax = [int(x) for x in input().split()]
+d = []
+for i in range(n):
+  d.append(int(input()))
+left = 1
+right = len(d)
+while left <= right:
+  mid = left + (right - left)//2
+  if works(mid):
+    right = mid - 1
+  else:
+    left = mid + 1
+print(left)
