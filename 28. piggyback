@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<long long> bfs (int start, vector<vector<int>>& tree){
+  vector<long long> d (tree.size(), -1);
+  d[start] = 0;
+  queue<vector<long long>> q;
+  vector<bool> vis (tree.size(), false);
+  vis[start] = true;
+  q.push({start, 0});
+  while (q.size() > 0){
+    int cur = q.front()[0], dist = q.front()[1];
+    q.pop();
+    for (int i = 0; i < tree.size(); i++){
+      if (cur == i && d[i] == -1){
+        d[i] = dist;
+        break;
+      }
+    }
+    for (int node : tree[cur]){
+      if (!vis[node]){
+        vis[node] = true;
+        q.push({node, dist + 1});
+      }
+    }
+  }
+  return d;
+}
+
+int main(){
+  int b, e, p, n, m;
+  cin >> b >> e >> p >> n >> m;
+  vector<vector<int>> tree (n);
+  for (int i = 0; i < m; i++){
+    int a, b;
+    cin >> a >> b;
+    a--;
+    b--;
+    tree[a].push_back(b);
+    tree[b].push_back(a);
+  }
+  vector<long long> d0 = bfs(0, tree);
+  vector<long long> d1 = bfs(1, tree);
+  vector<long long> dn = bfs(n-1, tree);
+  long long best = LLONG_MAX;
+  for (int i = 0; i < n; i++){
+    best = min(best, d0[i] * b + d1[i] * e + dn[i] * p);
+  }
+  cout << best;
+}
