@@ -1,0 +1,16 @@
+n = int(input())
+e = []
+b = [1] * (2*n)
+for i in range(n):
+  e.append(int(input()))
+  b[e[i] - 1] = 0
+count = 0
+ecount = 0
+for i in range(2*n):
+  if b[i] == 0:
+    ecount += 1
+  if b[i] == 1:
+    if ecount > 0:
+      count += 1
+      ecount -= 1
+print(count)
