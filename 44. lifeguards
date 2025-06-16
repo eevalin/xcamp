@@ -1,0 +1,24 @@
+from heapq import heappush, heappop
+n = int(input())
+lg = []
+for i in range(n):
+  temp = [int(x) for x in input().split()]
+  lg.append([temp[0], i])
+  lg.append([temp[1], i])
+lg.sort()
+total = 0
+a = [0] * n
+cur = set()
+last = 0
+for g in lg:
+  if len(cur) == 1:
+    temp = list(cur)
+    a[temp[0]] += g[0] - last
+  if len(cur) > 0:
+    total += g[0] - last
+  if g[1] in cur:
+    cur.remove(g[1])
+  else:
+    cur.add(g[1])
+  last = g[0]
+print(total - min(a))
