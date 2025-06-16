@@ -1,0 +1,27 @@
+def works(mid):
+  total = 1
+  startt = t[0]
+  curcount = 1
+  for i in range(1, n):
+    if total > m:
+      return False
+    if curcount < c and t[i] - startt <= mid:
+      curcount += 1
+    else:
+      startt = t[i]
+      curcount = 1
+      total += 1
+  return total <= m
+
+n, m, c = [int(x) for x in input().split()]
+t = [int(x) for x in input().split()]
+t.sort()
+left = 0
+right = t[-1]
+while left <= right:
+  mid = left + (right-left)//2
+  if works(mid):
+    right = mid - 1
+  else:
+    left = mid + 1
+print(left)
