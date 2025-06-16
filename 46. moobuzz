@@ -1,0 +1,9 @@
+n = int(input())
+cur = n//8
+count = cur * 8
+cur *= 15
+while count < n:
+  if cur%3 != 0 and cur%5 != 0:
+    count += 1
+  cur += 1
+print(cur-1)
