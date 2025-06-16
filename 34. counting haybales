@@ -1,0 +1,32 @@
+n, q = [int(_) for _ in input().split()]
+hay = [int(_) for _ in input().split()]
+hay.sort()
+for _ in range(q):
+    a, b = map(int, input().split())
+    left, right = 0, n - 1
+    while left + 1 < right:
+        mid = (left + right) // 2
+        if hay[mid] < a:
+            left = mid
+        else:
+            right = mid
+    if hay[left] >= a:
+        x = left
+    elif hay[right] >= a:
+        x = right
+    else:
+        x = n
+    left, right = 0, n - 1
+    while left + 1 < right:
+        mid = (left + right) // 2
+        if hay[mid] <= b:
+            left = mid
+        else:
+            right = mid
+    if hay[right] <= b:
+        y = right
+    elif hay[left] <= b:
+        y = left
+    else:
+        y = -1
+    print(y - x + 1)
