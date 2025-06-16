@@ -1,0 +1,33 @@
+def works(mid):
+  cur = 0
+  curint = 0
+  count = 0
+  while curint < m and count < n:
+    #print(cur)
+    while curint < m and g[curint][1] < cur:
+      curint += 1
+    if curint == m:
+      return False
+    cur = max(cur, g[curint][0])
+    count += 1
+    cur += mid
+  #print(count == n)
+  return count == n
+
+n, m = [int(x) for x in input().split()]
+g = []
+maxd = 0
+for i in range(m):
+  g.append([int(x) for x in input().split()])
+  maxd = max(maxd, g[i][1])
+g.sort()
+left = 1
+right = maxd
+while left <= right:
+  mid = left + (right - left)//2
+  #print(mid)
+  if works(mid):
+    left = mid + 1
+  else:
+    right = mid - 1
+print(right)
