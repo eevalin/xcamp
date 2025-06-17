@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool works(int mid, vector<vector<int>>& grid, int n){
+  vector<int> ans;
+  vector<vector<bool>> vis (n, vector<bool>(n, false));
+  queue<pair<int, int>> q;
+  for (int i = 0; i < n; i++){
+    for (int j = 0; j < n; j++){
+      if (!vis[i][j]){
+        vis[i][j] = true;
+        q.push(make_pair(i, j));
+        int count = 1;
+        while (q.size() > 0){
+          int curx = q.front().first;
+          int cury = q.front().second;
+          q.pop();
+          vector<int> dx = {0, 0, 1, -1};
+          vector<int> dy = {1, -1, 0, 0};
+          for (int k = 0; k < 4; k++){
+            int newx = curx + dx[k];
+            int newy = cury + dy[k];
+            if (newx >= 0 && newx < n && newy >= 0 && newy < n && !vis[newx][newy] && abs(grid[newx][newy] - grid[curx][cury]) <= mid){
+              count++;
+              q.push(make_pair(newx, newy));
+              vis[newx][newy] = true;
+            }
+          }
+        }
+        ans.push_back(count);
+      }
+    }
+  }
+  sort(ans.begin(), ans.end());
+  return ans[ans.size() - 1] >= ((n*n)/2 + (n*n)%2);
+}
+
+int main(){
+  int n;
+  cin >> n;
+  vector<vector<int>> grid (n, vector<int>(n));
+  int left = 0;
+  int right = 0;
+  for (int i = 0; i < n; i++){
+    for (int j = 0; j < n; j++){
+      cin >> grid[i][j];
+      right = max(right, grid[i][j]);
+    }
+  }
+  while (left + 1 < right){
+    int mid = left + (right - left)/2;
+    if (works(mid, grid, n)) right = mid;
+    else left = mid;
+  }
+  if (works(left, grid, n)) cout << left;
+  else cout << right;
+}
