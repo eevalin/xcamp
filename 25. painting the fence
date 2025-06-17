@@ -1,0 +1,28 @@
+n, k = [int(x) for x in input().split()]
+a = []
+last = 0
+for i in range(n):
+  x, d = input().split()
+  x = int(x)
+  if d == 'L':
+    a.append([last - x, 1])
+    a.append([last, -1])
+    last -= x
+  else:
+    a.append([last, 1])
+    a.append([last + x, -1])
+    last += x
+a.sort()
+psum = 0
+ans = 0
+start = float('inf')
+for i in range(len(a)):
+  psum += a[i][1]
+  if psum >= k:
+    if start == float('inf'):
+      start = a[i][0]
+  else:
+    if start != float('inf'):
+      ans += a[i][0] - start
+      start = float('inf')
+print(ans)
