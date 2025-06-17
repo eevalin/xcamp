@@ -1,0 +1,9 @@
+n = int(input())
+a = []
+for i in range(n):
+  a.append([int(input()), i])
+a.sort()
+ans = 0
+for i in range(n):
+  ans = max(a[i][1] - i, ans)
+print(ans + 1)
