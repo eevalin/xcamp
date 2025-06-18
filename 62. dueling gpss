@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<vector<vector<long long>>> v (10003);
+long long dist[3][10003];
+
+long long dij (int a, int n, int src, vector<vector<vector<long long>>>& r) {
+  priority_queue<pair<long long, long long>> pq;
+  pq.push({0, src});
+  for (int i = 0; i < n; i++) dist[a][i] = LLONG_MAX;
+  dist[a][src] = 0;
+  while (pq.size() > 0){
+    long long cur = pq.top().second;
+    long long dst = -pq.top().first;
+    pq.pop();
+    if (dst != dist[a][cur]) continue;
+    for (long long i = 0; i < r[cur].size(); i++){
+      long long v = r[cur][i][0];
+      if (dist[a][v] > dist[a][cur] + r[cur][i][1]) {
+        dist[a][v] = dist[a][cur] + r[cur][i][1];
+        pq.push({-dist[a][v], v});
+      }
+    }
+  }
+  return dist[a][n - 1];
+}
+
+long long dij2 (int a, int n, int src, vector<vector<vector<long long>>>& r) {
+  priority_queue<pair<long long, long long>> pq;
+  pq.push({0, src});
+  for (int i = 0; i < n; i++) dist[a][i] = LLONG_MAX;
+  dist[a][src] = 0;
+  while (pq.size() > 0){
+    long long cur = pq.top().second;
+    long long dst = -pq.top().first;
+    pq.pop();
+    if (dst != dist[a][cur]) continue;
+    for (int i = 0; i < r[cur].size(); i++){
+      long long v = r[cur][i][0];
+      if (dist[a][v] > dist[a][cur] + r[cur][i][1]) {
+        dist[a][v] = dist[a][cur] + r[cur][i][1];
+        pq.push({-dist[a][v], v});
+      }
+    }
+  }
+  return dist[a][n - 1];
+}
+
+int main(){
+  int n, m;
+  cin >> n >> m;
+  vector<vector<vector<long long>>> r1 (n);
+  vector<vector<vector<long long>>> r2 (n);
+  for (int i = 0; i < m; i++){
+    long long a, b, p, q;
+    cin >> a >> b >> p >> q;
+    a--, b--;
+    r1[b].push_back({a, p});
+    r2[b].push_back({a, q});
+  }
+  long long par1 = dij(0, n, n - 1, r1);
+  long long par2 = dij(1, n, n - 1, r2);
+  for (long long cur = 0; cur < n; cur++) {
+    for (int j = 0; j < r1[cur].size(); j++) {
+      long long nxt = r1[cur][j][0];
+      long long c = 0;
+      long long dst1 = r1[cur][j][1], dst2 = r2[cur][j][1];
+      if (dist[0][nxt] - dist[0][cur] != dst1) c++;
+      if (dist[1][nxt] - dist[1][cur] != dst2) c++;
+      v[nxt].push_back({cur, c});
+    }
+  }
+  long long ans = dij2(2, n, 0, v);
+  cout << ans;
+}
