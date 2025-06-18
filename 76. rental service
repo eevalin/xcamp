@@ -1,0 +1,43 @@
+n, m, r = [int(x) for x in input().split()]
+c = []
+for i in range(n):
+  c.append(int(input()))
+c.sort()
+buy = []
+for i in range(m):
+  q, p = [int(x) for x in input().split()]
+  buy.append([p, q])
+buy.sort()
+rent = []
+for i in range(r):
+  rent.append(int(input()))
+rent.sort()
+prerent = [0] * (n+1)
+for i in range(1, n+1):
+  if i <= r:
+    prerent[i] = prerent[i-1] + rent[r-i]
+  else:
+    prerent[i] = prerent[i-1]
+prebuy = [0] * (n+1)
+cur = n
+while cur > 0 and c and buy:
+  if prebuy[n-cur+1] == 0:
+    prebuy[n-cur+1] = prebuy[n-cur]
+  temp = min(c[cur-1], buy[-1][1])
+  prebuy[n-cur+1] += temp * buy[-1][0]
+  c[cur-1] -= temp
+  buy[-1][1] -= temp
+  if c[cur-1] == 0:
+    cur -= 1
+  else:
+    buy.pop()
+best = 0
+buyc = min(n, m)
+rc = min(r, n-buyc)
+while buyc >= 0:
+  best = max(best, prebuy[buyc] + prerent[rc])
+  buyc -= 1
+  rc += 1
+print(best)
+#print(prerent)
+#print(prebuy)
